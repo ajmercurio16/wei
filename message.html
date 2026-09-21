@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ILYSM</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                "Georgia",
+                "Times New Roman",
+                serif;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8d7df,
+                    #f5e8df,
+                    #ead8e8
+                );
+
+            color: #4b3840;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================
+           FLOATING HEARTS
+        ========================= */
+
+        .heart {
+
+            position: fixed;
+
+            bottom: -40px;
+
+            font-size: 20px;
+
+            pointer-events: none;
+
+            animation:
+                floatUp 7s linear forwards;
+
+            opacity: 0.7;
+        }
+
+
+        @keyframes floatUp {
+
+            0% {
+
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+
+                opacity: 0;
+            }
+
+            20% {
+
+                opacity: 0.7;
+            }
+
+            100% {
+
+                transform:
+                    translateY(-110vh)
+                    rotate(180deg);
+
+                opacity: 0;
+            }
+        }
+
+
+        /* =========================
+           INTRO SCREEN
+        ========================= */
+
+        .intro {
+
+            width: min(430px, 92vw);
+
+            text-align: center;
+
+            padding: 45px 30px;
+
+            background:
+                rgba(255,255,255,0.65);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.8);
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(120,70,90,0.18);
+
+            backdrop-filter:
+                blur(10px);
+
+            animation:
+                appear 0.8s ease;
+        }
+
+
+        .envelope {
+
+            font-size: 85px;
+
+            margin-bottom: 20px;
+
+            animation:
+                floating 2s ease-in-out infinite;
+        }
+
+
+        @keyframes floating {
+
+            0%,100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+
+        .intro h1 {
+
+            font-size: 32px;
+
+            color: #765361;
+
+            margin-bottom: 12px;
+        }
+
+
+        .intro p {
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+            color: #7b6870;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================
+           OPEN BUTTON
+        ========================= */
+
+        .open-button {
+
+            border: none;
+
+            padding: 13px 28px;
+
+            border-radius: 30px;
+
+            background:
+                #c9829b;
+
+            color: white;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px
+                rgba(160,80,110,0.2);
+
+            transition:
+                0.3s ease;
+        }
+
+
+        .open-button:hover {
+
+            transform:
+                translateY(-3px);
+
+            background:
+                #b96f8b;
+
+            box-shadow:
+                0 12px 25px
+                rgba(160,80,110,0.3);
+        }
+
+
+        /* =========================
+           LETTER
+        ========================= */
+
+        .letter-container {
+
+            display: none;
+
+            width: min(720px, 94vw);
+
+            max-height: 92vh;
+
+            overflow-y: auto;
+
+            animation:
+                letterAppear 0.8s ease;
+        }
+
+
+        .letter-container.show {
+
+            display: block;
+        }
+
+
+        @keyframes letterAppear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(30px)
+                    scale(0.97);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+
+        /* =========================
+           PAPER
+        ========================= */
+
+        .letter {
+
+            background:
+                #fffaf5;
+
+            padding:
+                55px 60px;
+
+            border-radius:
+                8px;
+
+            box-shadow:
+                0 25px 60px
+                rgba(90,50,60,0.22);
+
+            position: relative;
+
+            color:
+                #4a3b3f;
+        }
+
+
+        /* paper lines */
+
+        .letter::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            top: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            pointer-events: none;
+
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    transparent 0px,
+                    transparent 31px,
+                    rgba(190,150,160,0.10) 32px
+                );
+
+            border-radius: 8px;
+        }
+
+
+        .letter-content {
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        /* =========================
+           LETTER HEADER
+        ========================= */
+
+        .letter-top {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .letter-top .small-heart {
+
+            font-size: 32px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .letter-top h2 {
+
+            font-size: 34px;
+
+            font-weight: normal;
+
+            color:
+                #765361;
+        }
+
+
+        .date {
+
+            margin-top: 8px;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            font-size: 12px;
+
+            color:
+                #a18c94;
+        }
+
+
+        /* =========================
+           LETTER TEXT
+        ========================= */
+
+        .letter p {
+
+            font-size: 17px;
+
+            line-height: 2;
+
+            margin-bottom: 20px;
+
+            text-align: left;
+        }
+
+
+        .greeting {
+
+            font-size: 19px !important;
+
+            margin-bottom: 25px !important;
+
+            color:
+                #765361;
+        }
+
+
+        .important {
+
+            color:
+                #b76582;
+
+            font-weight:
+                bold;
+        }
+
+
+        .ending {
+
+            margin-top: 30px;
+
+            text-align: right;
+
+            font-style: italic;
+
+            color:
+                #765361;
+        }
+
+
+        .signature {
+
+            margin-top: 5px;
+
+            text-align: right;
+
+            font-size: 20px;
+
+            color:
+                #b76582;
+        }
+
+
+        /* =========================
+           CLOSE BUTTON
+        ========================= */
+
+        .close-area {
+
+            text-align: center;
+
+            margin-top: 30px;
+        }
+
+
+        .close-button {
+
+            border: none;
+
+            background:
+                transparent;
+
+            color:
+                #a77a88;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            text-decoration:
+                underline;
+
+            opacity: 0.8;
+        }
+
+
+        .close-button:hover {
+
+            opacity: 1;
+        }
+
+
+        /* =========================
+           SCROLLBAR
+        ========================= */
+
+        .letter-container::-webkit-scrollbar {
+
+            width: 6px;
+        }
+
+
+        .letter-container::-webkit-scrollbar-thumb {
+
+            background:
+                #d5aab8;
+
+            border-radius:
+                10px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding: 12px;
+            }
+
+
+            .letter {
+
+                padding:
+                    38px 25px;
+            }
+
+
+            .letter-top h2 {
+
+                font-size:
+                    28px;
+            }
+
+
+            .letter p {
+
+                font-size:
+                    15px;
+
+                line-height:
+                    1.85;
+            }
+
+
+            .intro {
+
+                padding:
+                    40px 25px;
+            }
+
+
+            .envelope {
+
+                font-size:
+                    70px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         INTRO
+    ========================== -->
+
+    <div class="intro" id="intro">
+
+        <div class="envelope">
+            
+        </div>
+
+        <h1>
+            sorry baby
+        </h1>
+
+        <p>
+            i know i should've just said sorry,
+            but i wanted to make something special
+            for u my baby
+        </p>
+
+        <button
+            class="open-button"
+            onclick="openLetter()">
+
+            Open Letter
+
+        </button>
+
+    </div>
+
+
+
+    <!-- =========================
+         LETTER
+    ========================== -->
+
+    <div
+        class="letter-container"
+        id="letterContainer">
+
+        <div class="letter">
+
+            <div class="letter-content">
+
+
+                <!-- HEADER -->
+
+                <div class="letter-top">
+
+                    <div class="small-heart">
+                        
+                    </div>
+
+                    <h2>
+                        im sorry, baby
+                    </h2>
+
+                    
+                </div>
+
+
+                <!-- LETTER -->
+
+                <p class="greeting">
+                    babyyy,
+                </p>
+
+
+                <p>
+                    na g-guilt ako. i'm reallyyyy
+                    really sorryyyy po talaga.
+                    dapat pala hindi na talaga ako
+                    nag laro. 😭
+                </p>
+
+
+                <p>
+                    kala ko po kasi 5:30 pa u or
+                    5:10, kaya akala ko may time pa.
+                    inaantay ko rin po chat mo,
+                    kaya napa-"isa pa" ako kasi
+                    you said na uuwi ka.
+                </p>
+
+
+                <p>
+                    kaya nag-play ako ng isang game.
+                    tapos hindi ko alam na hindi mo
+                    pala sinabi na sa bahay ka na
+                    dederetso.
+                </p>
+
+
+                <p class="important">
+                    i'm reallyyyy sorry, my babyyy.
+                </p>
+
+
+                <p>
+                    alam ko naman na technically
+                    hindi ko naman intention na
+                    ma-miss kita ko, pero still,
+                    kasalanan ko pa rin kasi
+                    dapat naghintay na lang ako.
+                </p>
+
+
+                <p>
+                    mas lalo akong na-guilty kasi
+                    hindi kita nakita.
+                    sana nandito ka sa houzee
+                    and sana nakita kita.
+                </p>
+
+
+                <p>
+                    honestly, if i knew na diretso
+                    ka pala sa bahay, hindi na talaga
+                    ako naglaro.
+                    i would've waited for you instead.
+                </p>
+
+
+                <p>
+                    i'm sorry if it made you feel na
+                    mas pinili ko yung game kaysa
+                    makita ka.
+                    <span class="important">
+                        hindi po yun yung gusto kong
+                        iparamdam sayo.
+                    </span>
+                </p>
+
+
+                <p>
+                    i know one game lang naman siya,
+                    pero i still feel really bad
+                    because that one game could've
+                    been time na sana kasama kita.
+                </p>
+
+
+                <p>
+                    i'm not trying to make excuses,
+                    baby.
+                    i just want to explain what
+                    happened kasi ayoko rin na
+                    isipin mo na wala akong pake.
+                </p>
+
+
+                <p>
+                    i really wanted to see you.
+                    kaya until now g-guilty pa rin ako
+                    thinking na sana naghintay na lang ako.
+                </p>
+
+
+                <p class="important">
+                    sa susunod hindi na, baby.
+                </p>
+
+
+                <p>
+                    i'll make sure muna na alam ko
+                    yung plans mo bago ako maglaro.
+                    and if i'm waiting for you,
+                    i'll actually wait properly.
+                    hindi na ako mag-"isa pa" HAHAHA.
+                </p>
+
+
+                <p>
+                    i promise i'll be more careful
+                    next time.
+                    ayoko na maulit yung ganito
+                    na may moment sana tayo
+                    pero na-miss ko dahil lang
+                    naglaro ako.
+                </p>
+
+
+                <p>
+                    i'm reallyyyy sorry,
+                    my babyyy.
+                    i hope you know na i care about
+                    you so much.
+                </p>
+
+
+                <p>
+                    thank you rin for understanding me
+                    kahit minsan nagkakamali ako.
+                    i know i'm not perfect,
+                    pero i'm really trying to become
+                    better for us.
+                </p>
+
+
+                <p>
+                    i don't want to just say sorry.
+                    i want to learn from it too.
+                    kaya next time, i'll do
+                    better and i'll make sure na
+                    hindi kita ma-miss like this again.
+                </p>
+
+
+                <p>
+                    sana nandito ka ngayon sa houzee
+                    
+                </p>
+
+
+                <p>
+                    i'm really, really sorry, baby.
+                    please don't think na you mean
+                    anything less to me because
+                    of what happened.
+                </p>
+
+
+                <p class="important">
+                    you mean so much to me.
+                </p>
+
+
+                <p>
+                    and if i could go back,
+                    hindi na talaga ako maglalaro.
+                    i'd rather wait for you.
+                </p>
+
+
+                <p>
+                    i'm sorry for making you feel bad or dissapointed,
+                    and i'm sorry for not waiting.
+                    i'll do better next time,
+                    my baby.
+                </p>
+
+
+                <p>
+                    i love youuu so much.
+                    🤍
+                </p>
+
+
+                <!-- SIGNATURE -->
+
+                <div class="ending">
+                    sorry my weiiii
+                </div>
+
+                <div class="signature">
+                    drian
+                </div>
+
+
+                <!-- CLOSE -->
+
+                <div class="close-area">
+
+                    <button
+                        class="close-button"
+                        onclick="closeLetter()">
+
+                        close letter
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+
+        function openLetter() {
+
+            document
+                .getElementById("intro")
+                .style.display = "none";
+
+
+            document
+                .getElementById("letterContainer")
+                .classList.add("show");
+
+
+            createHearts();
+
+        }
+
+
+
+        function closeLetter() {
+
+            document
+                .getElementById("letterContainer")
+                .classList.remove("show");
+
+
+            document
+                .getElementById("intro")
+                .style.display = "block";
+
+        }
+
+
+
+        function createHearts() {
+
+            for (let i = 0; i < 12; i++) {
+
+                const heart =
+                    document.createElement("div");
+
+
+                heart.className =
+                    "heart";
+
+
+                
+
+                heart.innerHTML =
+                    hearts[
+                        Math.floor(
+                            Math.random()
+                            * hearts.length
+                        )
+                    ];
+
+
+                heart.style.left =
+                    Math.random() * 100 + "vw";
+
+
+                heart.style.fontSize =
+                    (14 + Math.random() * 20)
+                    + "px";
+
+
+                heart.style.animationDuration =
+                    (5 + Math.random() * 4)
+                    + "s";
+
+
+                document.body.appendChild(heart);
+
+
+                setTimeout(function() {
+
+                    heart.remove();
+
+                }, 9000);
+
+            }
+
+        }
+
+
+        /* soft hearts in the background */
+
+        setInterval(function() {
+
+            createHearts();
+
+        }, 5000);
+
+
+    </script>
+
+
+</body>
+
+</html>
